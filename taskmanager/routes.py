@@ -58,3 +58,15 @@ def add_task():
         db.session.commit()
         return redirect(url_for("home"))
     return render_template("add_tast.html", categories=categories)
+
+
+@app.route("/edit_tasks/<int:category_id>", methods=["GET", "POST"])
+def edit_tasks(category_id):
+    task = Task.query.get_or_404(category_id)
+    categories = list(Category.query.order_by(Category.category_name).all())
+    if request.method == "POST":
+        task.task_name = request.form.get("task_name")
+        category_id=request.form.get("category_id")
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("edit_tasks.html", task=task, categories=categories)
