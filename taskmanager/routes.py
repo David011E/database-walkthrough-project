@@ -70,3 +70,10 @@ def edit_tasks(category_id):
         db.session.commit()
         return redirect(url_for("home"))
     return render_template("edit_tasks.html", task=task, categories=categories)
+
+@app.route("/delete_tasks/<int:task_id>")
+def delete_tasks(task_id):
+    task = Task.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for("home"))
